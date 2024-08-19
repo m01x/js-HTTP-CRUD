@@ -43,7 +43,7 @@ export const renderTable = element => {
     <td>${user.balance}</td>
     <td>${user.firstName}</td>
     <td>${user.lastName}</td>
-    <td>${user.active}</td>
+    <td>${user.isActive}</td>
     <td>
         <a href="#/" data-id="${user.id}">Select</a>
         <a href="#/" data-id="${user.id}">Delete</a>

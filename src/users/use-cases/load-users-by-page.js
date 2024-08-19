@@ -11,8 +11,8 @@ export const loadUsersByPage = async (page = 1) => {
   const data = await res.json();
 
   const users = [];
-  data.data.forEach(element => {
-    users.push(localhostUserToModel(element));
+  data.data.forEach(user => {
+    users.push(localhostUserToModel(user));
   });
 
   return users;
