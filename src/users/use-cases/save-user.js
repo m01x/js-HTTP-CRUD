@@ -1,3 +1,4 @@
+import { localhostUserToModel } from '../mappers/localhost.-user.mapper';
 import { userModelToLocalhost } from '../mappers/user-to-localhost.mapper';
 import { User } from '../models/user';
 
@@ -13,13 +14,37 @@ export const saveUser = async userLike => {
 
   //Mapeamos los campos, muy util!
   const userToSave = userModelToLocalhost(user);
+  let userUpdated;
 
   if (user.id) {
-    throw 'No implementada la actualizaicon';
-    return;
+    userUpdated = await updateUser(userToSave);
+  } else {
+    userUpdated = await createUser(userToSave);
   }
 
-  const updatedUser = await createUser(userToSave);
+  return localhostUserToModel(userUpdated);
+};
+
+/**
+ *
+ * @param {Like<User>} user
+ * @returns
+ */
+const updateUser = async user => {
+  const url = `${import.meta.env.VITE_BASE_URL}/users/${user.id}`;
+  //Diferencia entre una peticion PATCH y PUT.
+  //PUT: Le dice al backend que quieres reemplazar todo el registro por esto.
+  //PATCH: Actualiza unicamente lo que estoy enviando, dependiendo de como este construido el backend
+  const res = await fetch(url, {
+    method: 'PATCH',
+    body: JSON.stringify(user),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  const updatedUser = await res.json();
+  console.log({ updatedUser });
   return updatedUser;
 };
 
