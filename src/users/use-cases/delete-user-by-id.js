@@ -3,7 +3,7 @@
  * @param {String | Number} id
  * @returns
  */
-const deleteUser = async id => {
+export const deleteUserById = async id => {
   const url = `${import.meta.env.VITE_BASE_URL}/users/${id}`;
   const res = await fetch(url, {
     method: 'DELETE'

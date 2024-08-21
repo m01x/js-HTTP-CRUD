@@ -21,7 +21,6 @@ const loadPreviousPage = async () => {
   if (state.currentPage === 1) return;
 
   const users = await loadUsersByPage(state.currentPage - 1);
-  if (users.length === 0) return;
   state.currentPage -= 1;
   state.users = users;
 };
@@ -45,7 +44,12 @@ const onUserChanged = updatedUser => {
 };
 
 const reloadPage = async () => {
-  throw new Error(`Todavia no implementado`);
+  const users = await loadUsersByPage(state.currentPage);
+  if (users.length === 0) {
+    await loadPreviousPage();
+    return;
+  }
+  state.users = users;
 };
 
 export default {
